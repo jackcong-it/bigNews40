@@ -58,7 +58,7 @@
 
 
 
-
+    <script src="./libs/http.js"></script>
     <script>
         //当从登陆页面登录成功之后，跳转到index页面，那么index页面要立即发送ajax请求获取到用户的信息，将用户的名字和头像填充到页面对应的部分
         //jQuery的入口函数
@@ -66,7 +66,8 @@
             //立刻发送ajax请求获得用户的信息
             $.ajax({
                 type: 'get',
-                url: 'http://localhost:8080/api/v1/admin/user/info',
+                // url: 'http://localhost:8080/api/v1/admin/user/info',
+                url: window.BigNew.user_info,
                 // 将jQuery的ajax中设置请求头 
                 //我们在后期去访问任何一个接口都需要带上token，我们每次请求接口发送ajax请求的时候都需要设置这样的headers
                 // 在jQuery中设置一个方法，让这个方法在每次发送ajax的时候都调用，发送这个headers
