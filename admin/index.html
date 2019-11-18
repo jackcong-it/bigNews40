@@ -82,6 +82,19 @@
                     $('.user_center_link>img').attr('src',res.data.userPic)
                 }
             })
+        
+        
+        //   退出的实现逻辑
+        //    当我们点击这个退出按钮的时候，应该让这个页面回到登录页面，并且要将token删除
+            // 1.获取这个按钮注册点击事件
+            // 2.点击按钮删除token
+            // 3.跳转回登录页面
+            $('.logout').on('click',function() {
+                //删除token
+                window.localStorage.removeItem('token');
+                //回到登录页面
+                window.location.href = './login.html';
+            })
         })
 
 
