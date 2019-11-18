@@ -39,21 +39,44 @@
   </div>
 
 
+  <!-- 使用bootstrap中的模态框来对用户做提示 -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <script>
     //使用jQuery来处理,先设置好入口函数
-    $(function() {
+    $(function () {
       //  登录的逻辑
       // 1.先获取登录按钮，给登录按钮注册点击事件
-      $('.input_sub').on('click',function(e) {
+      $('.input_sub').on('click', function (e) {
         //这个按钮是一个submit按钮，会默认跳转，我们需要阻止其默认行为
         e.preventDefault();
         // 2.点击的时候获取用户名和密码  我们要去除用户名和密码前后的空格
         var userName = $('.input_txt').val().trim();
         var userPwd = $('.input_pass').val().trim();
         // 3.非空判断
-        if(userName == '' || userPwd == '') {
-          alert('亲，请输入用户名或者密码');
+        if (userName == '' || userPwd == '') {
+          // alert('亲，请输入用户名或者密码');
+          $('#myModal').modal();
+          $('.modal-body').html('亲，用户名和密码不能为空哦');
           return;
         }
         // 4.使用ajax请求数据，做页面渲染
@@ -64,21 +87,21 @@
             username: userName,
             password: userPwd
           },
-          success: function(res) {
+          success: function (res) {
             //判断用户名或者密码是否正确
-            if(res.code == 200) {
+            if (res.code == 200) {
               alert('欢迎回家，亲');
               //跳转的网站的首页
               window.location.href = './index.html';
-            }else {
+            } else {
               alert('你个SB，用户名和密码都记不住');
             }
           }
         })
       })
-      
+
     })
-  
+
   </script>
 </body>
 
