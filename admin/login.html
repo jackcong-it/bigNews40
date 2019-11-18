@@ -90,8 +90,11 @@
           success: function (res) {
             $('.modal-body').text(res.msg);
             $('#myModal').modal();
+            // console.log(res);
             //判断用户名或者密码是否正确
             if (res.code == 200) {
+              // 当我们登录成功之后，我们需要将token令牌存储到本地，然后在使用其他的页面的时候，将这个令牌拿出来给别人看，这个令牌就是用来鉴别我们是否有登录
+              window.localStorage.setItem('token',res.token);
               // alert('欢迎回家，亲');
               //跳转的网站的首页
               $('#myModal').on('hidden.bs.modal', function (e) {

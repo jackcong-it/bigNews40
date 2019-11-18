@@ -54,5 +54,50 @@
 
         </div>
     </div>
+
+
+
+
+
+    <script>
+        //当从登陆页面登录成功之后，跳转到index页面，那么index页面要立即发送ajax请求获取到用户的信息，将用户的名字和头像填充到页面对应的部分
+        //jQuery的入口函数
+        $(function() {
+            //立刻发送ajax请求获得用户的信息
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:8080/api/v1/admin/user/info',
+                // 将jQuery的ajax中设置请求头 
+                //我们在后期去访问任何一个接口都需要带上token，我们每次请求接口发送ajax请求的时候都需要设置这样的headers
+                // 在jQuery中设置一个方法，让这个方法在每次发送ajax的时候都调用，发送这个headers
+                // 在jQuery中要找一个方法： 每次发送ajax请求的时候，都帮我们发送一个请求头
+                // headers: {
+                //     Authorization: window.localStorage.getItem('token')
+                // },
+                success: function(res) {
+                    // console.log(res);
+                    //获取到返回的用户信息，在页面渲染
+                    $('.user_info>img').attr('src',res.data.userPic);
+                    $('.user_info>span').html('欢迎&nbsp;&nbsp;'+res.data.nickname);
+                    $('.user_center_link>img').attr('src',res.data.userPic)
+                }
+            })
+        })
+
+
+
+            // 原生的ajax方式来处理
+            // var xhr = new  XMLHttpRequest();
+            // xhr.open('get','http://localhost:8080/api/v1/admin/user/info');
+            // xhr.setRequestHeader('Authorization',window.localStorage.getItem('token'));
+            // xhr.onreadystatechange = function() {
+            //     if(xhr.status == 200 && xhr.readyState == 4) {
+            //         var res = JSON.parse(xhr.responseText);
+            //         console.log(res);
+            //     }
+            // }
+            // xhr.send();
+
+    </script>
 </body>
 </html>
