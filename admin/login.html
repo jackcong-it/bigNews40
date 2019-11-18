@@ -50,7 +50,7 @@
           <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
         </div>
         <div class="modal-body">
-          
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
@@ -75,8 +75,8 @@
         // 3.非空判断
         if (userName == '' || userPwd == '') {
           // alert('亲，请输入用户名或者密码');
+          $('.modal-body').text('亲，用户名和密码不能为空哦');
           $('#myModal').modal();
-          $('.modal-body').html('亲，用户名和密码不能为空哦');
           return;
         }
         // 4.使用ajax请求数据，做页面渲染
@@ -88,14 +88,22 @@
             password: userPwd
           },
           success: function (res) {
+            $('.modal-body').text(res.msg);
+            $('#myModal').modal();
             //判断用户名或者密码是否正确
             if (res.code == 200) {
-              alert('欢迎回家，亲');
+              // alert('欢迎回家，亲');
               //跳转的网站的首页
-              window.location.href = './index.html';
-            } else {
-              alert('你个SB，用户名和密码都记不住');
+              $('#myModal').on('hidden.bs.modal', function (e) {
+                window.location.href = './index.html';
+              })
+
             }
+            // else {
+            //   // alert('你个SB，用户名和密码都记不住');
+            //   $('.modal-body').text(res.msg);
+            //   $('#myModal').modal();
+            // }
           }
         })
       })
