@@ -68,6 +68,56 @@
             </form>
         </div>
     </div>
+
+
+
+    <script src="./libs/http.js"></script>
+
+    <script>
+        $(function() {
+            // 当用户点击跳转到用户页面的时候，就应该将用户的信息获取，填充到表单中
+            $.get({
+                url: BigNew.user_detail,
+                success: function (res) {
+                    // console.log(res);
+                    // 当数据获取成功，渲染在页面上
+                    if(res.code == 200) {
+                        // $('input.username').val(res.data.username);
+                        // $('input.nickname').val(res.data.nickname);
+                        // $('input.email').val(res.data.email);
+                        // $('input.password').val(res.data.password);
+                        //因为数据中的字段名和表单中的每个表单元素的类名是相同的，所以我们可以这么处理
+                        for(var key in res.data) {
+                            // console.log(key);
+                            // console.log(key+'------'+res.data[key]);
+                            $('input.'+key).val(res.data[key]);
+                        }
+
+                        $('.user_pic').attr('src',res.data.userPic);
+                    }
+                }
+            })
+
+            //给文件域按钮注册一个change事件，当选择好图片之后，在页面显示预览效果
+            $('#exampleInputFile').on('change',function () {
+                // console.log(this.files[0];
+                //将选择的图片转换成一个url地址
+                var imgIcon = this.files[0];
+                //window上右一个URL对象，在这个对象中有一个createObjectURL，将图片的信息转换为url地址
+                var url = URL.createObjectURL(imgIcon);
+                // console.log(url);
+                //将这个地址设置给img的src属性
+                $('.user_pic').attr('src',url);
+            })
+
+
+
+
+
+
+
+        })
+    </script>
 </body>
 
 </html>
