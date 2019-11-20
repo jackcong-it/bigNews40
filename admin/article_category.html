@@ -75,7 +75,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btn-cancel">取消</button>
                     <button type="button" class="btn btn-primary" id="btn-confirm">确认</button>
                 </div>
             </div>
@@ -113,6 +113,13 @@
                 })
             }
 
+            //模态框取消按钮注册点击事件，点击的时候，将表单中的数据全部清空
+            $('#btn-cancel').on('click',function() {
+                //原生的表单对象上有一个方法： reset()用来重置表单的。
+                $('.modal-body form')[0].reset();
+            })
+
+
             //当点击某个按钮的时候显示模态框，会触发一个事件show.bs.modal
             $('#myModal').on('show.bs.modal', function (e) {
                 //    var el = e.relatedTarget;
@@ -120,7 +127,9 @@
                 if (e.relatedTarget == $('#xinzengfenlei')[0]) {
                     //表示我们点击的新增
                     $('#exampleModalLabel').text('新增文章分类');
-                    $('#btn-confirm').text('新增').addClass('btn-success').removeClass('btn-primary');;
+                    $('#btn-confirm').text('新增').addClass('btn-success').removeClass('btn-primary');
+                    //当点击新增分类的时候，将模态框中的表单全部重置一次
+                    $('.modal-body form')[0].reset();
 
                 } else {
                     //表示我们点击的了编辑
@@ -155,6 +164,23 @@
                 $('#btn-confirm').on('click', function () {
                     if ($(this).hasClass('btn-success')) {
                         // alert('新增');
+                        //1.先获取到表单中的信息
+                        var name = $('#recipient-name').val();
+                        var slug = $('#message-text').val();
+                        //2.发送ajax请求，将新增的数据添加后台数据库中
+                        $.post({
+                            url: BigNew.category_add,
+                            data: {
+                                name:name,
+                                slug: slug
+                            },
+                            success: function(res) {
+                                if(res.code == 201) {
+                                    $('#myModal').modal('hide');
+                                    getData();
+                                }
+                            }
+                        })
                     } else {
                         // alert('编辑');
                         var name = $('#recipient-name').val();
@@ -176,9 +202,6 @@
                         })
                     }
                 })
-
-
-
             })
 
 
