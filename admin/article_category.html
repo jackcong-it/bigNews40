@@ -90,7 +90,7 @@
             <td>{{$value.slug}}</td>
             <td class="text-center">
                 <a href="javascript:void(0)" data-id='{{$value.id}}' data-toggle="modal" class=" btn btn-info btn-xs" data-target="#myModal">编辑</a>
-                <a href="javascript:void(0)" data-id='{{$value.id}}' class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:void(0)" data-id='{{$value.id}}' class="btn btn-danger btn-xs btn-delete">删除</a>
             </td>
         </tr>
     {{/each}}
@@ -205,6 +205,34 @@
             })
 
 
+
+            //给删除按钮注册点击事件
+            // $('.btn-delete').on('click',function() {
+            //     console.log('我被点击了');
+            // })
+
+            $('tbody').on('click','.btn-delete',function() {
+                // console.log('我被点击了');
+                //当要删除的时候，给用户一个选择提示
+                var ans = confirm('亲，你真的要删除吗？');
+                var deleteId = $(this).attr('data-id');
+                // console.log(deleteId);
+                // confirm会根据用户的选择返回结果： 确定： true     取消： false
+                if(ans) {
+                    $.post({
+                        url: BigNew.category_delete,
+                        data: {
+                            id: deleteId
+                        },
+                        success: function(res) {
+                            // console.log(res);
+                            if(res.code == 204) {
+                                getData();
+                            }
+                        }
+                    })
+                }
+            })
 
 
 
