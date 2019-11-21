@@ -25,11 +25,11 @@
                 <div class="col-xs-6">
                     <form class="form-inline">
                         <select id="selCategory" name="" class="form-control input-sm">
-                            <option value="">所有分类</option>
+                            <!-- <option value="">所有分类</option>
                             <option>未分类</option>
                             <option>奇趣事</option>
                             <option>会生活</option>
-                            <option>爱旅行</option>
+                            <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
                             <option value="">所有状态</option>
@@ -72,6 +72,45 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <script src="./libs/http.js"></script>
+
+    <!-- 对于文章分类显示的模板 -->
+    <script type="text/html" id="list">
+        <option value="">所有分类</option>
+        {{each data}}
+            <option>{{$value.name}}</option>
+        {{/each}}
+    </script>
+
+
+    <script>
+
+        $(function () {
+            //当列表页面一加载就显示分类select中的数据
+            //请求所有的分类信息
+            $.get({
+                url: BigNew.category_list,
+                success: function (res) {
+                   var htmlStr = template('list',res);
+                   $('#selCategory').html(htmlStr);
+                }
+            });
+
+
+
+
+
+
+
+
+
+        })
+    </script>
 </body>
 
 </html>
