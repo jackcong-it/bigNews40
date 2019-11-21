@@ -83,7 +83,7 @@
     <script type="text/html" id="list">
         <option value="">所有分类</option>
         {{each data}}
-            <option>{{$value.name}}</option>
+            <option value="{{$value.id}}">{{$value.name}}</option>
         {{/each}}
     </script>
 
@@ -132,6 +132,31 @@
                     var htmlStr = template('art-list',res);
                     $('tbody').html(htmlStr);
                 }
+            });
+
+
+
+            //给筛选按钮注册点击事件，当点击这个按钮的时候筛选数据显示在页面
+            $('#btnSearch').on('click',function (e) {
+                //阻止默认行为
+                e.preventDefault();
+                // console.log($('#selCategory').val());
+                // console.log($('#selStatus').val());
+                $.get({
+                url: BigNew.article_query,
+                data: {
+                    type: $('#selCategory').val(),
+                    state: $('#selStatus').val(),
+                    page: page,
+                    perpage: perpage
+                },
+                success: function(res) {
+                    //调用模板，使用模板引擎中的方式来动态生成结构
+                    var htmlStr = template('art-list',res);
+                    $('tbody').html(htmlStr);
+                    // console.log(res);
+                }
+            })
             })
         })
     </script>
